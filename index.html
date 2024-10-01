@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Offerings and Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Welcome to Our Store</h1>
+
+    <!-- Login Form -->
+    <div id="login-form">
+        <h2>Login</h2>
+        <form action="/login" method="POST">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br><br>
+            
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br><br>
+            
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <!-- Product Listings (These can be dynamically loaded with JavaScript) -->
+    <div id="products">
+        <h2>Product Offerings</h2>
+        <ul id="product-list">
+            <!-- Products will be inserted here dynamically -->
+        </ul>
+    </div>
+
+    <script>
+        // Fetch products from the backend (Node.js API)
+        async function fetchProducts() {
+            const response = await fetch('/api/products');
+            const products = await response.json();
+
+            const productList = document.getElementById('product-list');
+            products.forEach(product => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${product.name} - $${product.price}`;
+                productList.appendChild(listItem);
+            });
+        }
+
+        // Call fetchProducts when the page loads
+        window.onload = fetchProducts;
+    </script>
+</body>
+</html>
